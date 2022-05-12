@@ -1,0 +1,33 @@
+<table class="result-table">
+  <tr>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Phone</th>
+    <th>Id</th>
+    
+    <th><span ng-click="add()"><b>Add New</b></span></th>
+  </tr>
+  <tr ng-repeat="list in List">
+    <td>
+      <input type="text" ng-model="list.firstName" ng-show="list.editable">
+      <span ng-hide="list.editable">{{ list.firstName }}</span>
+    </td>
+    <td>
+      <input type="text" ng-model="list.lastName" ng-show="list.editable">
+      <span ng-hide="list.editable">{{ list.lastName }}</span>
+    </td>
+    <td>
+      <input type="text" ng-model="list.phone" ng-show="list.editable">
+      <span ng-hide="list.editable">{{ list.phone }}</span>
+    </td>
+    <td>
+      <input type="text" ng-model="list.id" ng-show="list.editable">
+      <span ng-hide="list.editable">{{ list.id }}</span>
+    </td>
+    <td>
+      <span ng-click="edit($index)" ng-hide="list.editable">Edit</span>
+      <span ng-click="save($index)" ng-show="list.editable">Save</span>
+      <span ng-click="delete($index)"> | Delete</span>
+    </td>
+  </tr>
+</table>

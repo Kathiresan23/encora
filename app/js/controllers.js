@@ -1,31 +1,66 @@
-angular.module('F1FeederApp.controllers', []).
+angular.module('Test.controllers', []).
 
-  /* Drivers controller */
-  controller('driversController', function($scope, ergastAPIservice) {
-    $scope.nameFilter = null;
-    $scope.driversList = [];
-    $scope.searchFilter = function (driver) {
-        var re = new RegExp($scope.nameFilter, 'i');
-        return !$scope.nameFilter || re.test(driver.Driver.givenName) || re.test(driver.Driver.familyName);
-    };
+  /* Contact list controller */
+  controller('contactListController', function($scope, $routeParams, ergastAPIservice) {
+    $scope.List = [
+      {
+        "firstName": "Amit",
+        "lastName": "Roy",
+        "phone": "9876543210",
+        "id": 1,
+        "editable" : false
+      },
+      {
+        "firstName": "Aakash",
+        "lastName": "Choudhury",
+        "phone": "9876584431",
+        "id": 2,
+        "editable" : false
+      },
+      {
+        "firstName": "Arun",
+        "lastName": "Dey",
+        "phone": "5748493812",
+        "id": 3,
+        "editable" : false
+      },
+      {
+        "firstName": "Vikash",
+        "lastName": "Trivedi",
+        "phone": "9873625261",
+        "id": 4
+      },
+      {
+        "firstName": "Gaurav",
+        "lastName": "Gupta",
+        "phone": "7002873284",
+        "id": 5,
+        "editable" : false
+      }
+    ]
 
-    ergastAPIservice.getDrivers().success(function (response) {
-        //Digging into the response to get the relevant data
-        $scope.driversList = response.MRData.StandingsTable.StandingsLists[0].DriverStandings;
-    });
-  }).
 
-  /* Driver controller */
-  controller('driverController', function($scope, $routeParams, ergastAPIservice) {
-    $scope.id = $routeParams.id;
-    $scope.races = [];
-    $scope.driver = null;
+    $scope.add = function(){
+      $scope.List.push({
+         firstName : "",
+         lastName : "",
+         phone : "",
+         editable : true
+      })
+    }
+    $scope.entity = {}
+	    
+	  $scope.edit = function(index){
+      $scope.entity = $scope.List[index];
+      $scope.entity.index = index;
+      $scope.entity.editable = true;
+	  }
+    $scope.save = function(index){
+      $scope.List[index].editable = false;
+      
+    }
+    $scope.delete = function(index){
+      $scope.List.splice(index,1);
+    }
 
-    ergastAPIservice.getDriverDetails($scope.id).success(function (response) {
-        $scope.driver = response.MRData.StandingsTable.StandingsLists[0].DriverStandings[0]; 
-    });
-
-    ergastAPIservice.getDriverRaces($scope.id).success(function (response) {
-        $scope.races = response.MRData.RaceTable.Races; 
-    }); 
   });
